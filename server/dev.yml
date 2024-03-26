@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_DB=dev
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=dev
+  backends:
+    depends_on:
+      - db
+      - redis
+    image: node:21
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: bash -c "yarn start:dev"
+    ports:
+      - 8080:8080
+    env_file: ./.env
+  db-studio:
+    depends_on:
+      - db
+    image: node:21
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: bash -c "yarn prismaStudio"
+    ports:
+      - 5555:5555
+    env_file: ./.env
