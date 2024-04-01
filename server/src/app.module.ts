@@ -4,10 +4,8 @@ import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ConfigModule } from "@nestjs/config";
-import { RedisService } from "./redis/redis.service";
 import { RedisModule } from "./redis/redis.module";
-import { TransactionModule } from './transaction/transaction.module';
-import { TranasctionController } from './tranasction/tranasction.controller';
+import { TransactionModule } from "./transaction/transaction.module";
 
 @Module({
   imports: [
@@ -18,7 +16,7 @@ import { TranasctionController } from './tranasction/tranasction.controller';
     TransactionModule,
   ],
   exports: [],
-  controllers: [AppController, TranasctionController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

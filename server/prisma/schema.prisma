@@ -23,18 +23,6 @@ model User {
   @@map("tbl_user")
 }
 
-model TransactionCategory {
-  id           String        @id @default(uuid())
-  name         String        @unique
-  icon         Bytes         @db.ByteA
-  description  String?
-  created_at   DateTime      @default(now())
-  updated_at   DateTime      @updatedAt
-  transactions Transaction[] @relation("TransactionCategory")
-
-  @@map("tbl_transaction_category")
-}
-
 model Transaction {
   id                  String              @id @default(uuid())
   name                String              @unique
@@ -47,12 +35,12 @@ model Transaction {
   updated_at          DateTime            @updatedAt
   user                User                @relation(fields: [user_id], references: [id])
   user_id             Int
-  category            TransactionCategory @relation("TransactionCategory", fields: [category_id], references: [id])
-  category_id         String
+  category            TransactionCategory @default(OTHER)
 
+  @@index([user_id])
   @@index([user_id, name])
   @@index([user_id, type])
-  @@index([user_id, category_id])
+  @@index([user_id, category])
   @@index([type, recurrence, recurrence_interval])
   @@map("tbl_transaction")
 }
@@ -68,4 +56,15 @@ enum Recurrence {
   WEEKLY
   MONTHLY
   YEARLY
+}
+
+enum TransactionCategory {
+  REVENUE
+  FOOD
+  TRANSPORT
+  HEALTH
+  EDUCATION
+  ENTERTAINMENT
+  SPORTS
+  OTHER
 }

@@ -38,7 +38,7 @@ export class TransactionController {
     return this.transactionService
       .createTransaction(createTransactionData, req.user)
       .catch((err) => {
-        throw new HttpException(err.message, 500);
+        throw new HttpException(err, 500);
       });
   }
 

@@ -1,4 +1,8 @@
-import { Recurrence, TransactionType } from "@prisma/client";
+import {
+  Recurrence,
+  TransactionCategory,
+  TransactionType,
+} from "@prisma/client";
 import {
   IsDate,
   IsNotEmpty,
@@ -13,6 +17,7 @@ export class CreateTransactionDto {
   @Length(1, 255)
   name: string;
 
+  @IsString()
   description: string;
 
   @IsString()
@@ -27,9 +32,12 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   recurrence: Recurrence;
 
+  @IsString()
+  category?: TransactionCategory;
+
   @IsNumber()
   @IsNotEmpty()
-  interval: number;
+  recurrence_interval: number;
 }
 
 export class GetTransactionDto {
@@ -42,11 +50,26 @@ export class GetTransactionDto {
   @IsString()
   recurrence?: Recurrence;
 
+  @IsString()
+  category?: TransactionCategory;
+
   @IsDate()
   created_at?: Date;
 
   @IsNumber()
   value?: number;
+
+  @IsNumber()
+  offset: number;
+
+  @IsNumber()
+  limit: number;
+
+  @IsNumber()
+  minValue: number;
+
+  @IsNumber()
+  maxValue: number;
 }
 
 export class UpdateTransactionDto {
@@ -67,8 +90,11 @@ export class UpdateTransactionDto {
   value?: number;
 
   @IsString()
+  category?: TransactionCategory;
+
+  @IsString()
   recurrence?: Recurrence;
 
   @IsNumber()
-  interval?: number;
+  recurrence_interval?: number;
 }

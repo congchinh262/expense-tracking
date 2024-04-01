@@ -12,6 +12,7 @@ import { PrismaService } from "src/prisma/prisma.service";
       signOptions: { expiresIn: "1h" },
     }),
   ],
+  exports: [AuthService],
   controllers: [AuthController],
   providers: [AuthService, PrismaService],
 })
