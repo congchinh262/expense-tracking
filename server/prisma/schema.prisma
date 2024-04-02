@@ -16,10 +16,13 @@ model User {
   email        String        @unique
   name         String?
   password     String
+  balance      Float         @default(0)
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   transactions Transaction[]
+  savings      Saving[]
 
+  @@index([id, balance])
   @@map("tbl_user")
 }
 
@@ -41,8 +44,26 @@ model Transaction {
   @@index([user_id, name])
   @@index([user_id, type])
   @@index([user_id, category])
+  @@index([created_at])
   @@index([type, recurrence, recurrence_interval])
   @@map("tbl_transaction")
+}
+
+model Saving {
+  id          String              @id @default(uuid())
+  name        String              @unique
+  value       Float               @default(0)
+  category    TransactionCategory @default(OTHER)
+  active      Boolean             @default(true)
+  interval    Int                 @default(0)
+  recurrence  Recurrence          @default(DAILY)
+  description String?
+  created_at  DateTime            @default(now())
+  updated_at  DateTime            @updatedAt
+  user        User                @relation(fields: [user_id], references: [id])
+  user_id     Int
+
+  @@index([user_id, value])
 }
 
 enum TransactionType {

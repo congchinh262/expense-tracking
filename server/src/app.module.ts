@@ -6,6 +6,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { ConfigModule } from "@nestjs/config";
 import { RedisModule } from "./redis/redis.module";
 import { TransactionModule } from "./transaction/transaction.module";
+import { BalanceModule } from './balance/balance.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TransactionModule } from "./transaction/transaction.module";
     ConfigModule.forRoot(),
     RedisModule.forRoot(),
     TransactionModule,
+    BalanceModule,
   ],
   exports: [],
   controllers: [AppController],
